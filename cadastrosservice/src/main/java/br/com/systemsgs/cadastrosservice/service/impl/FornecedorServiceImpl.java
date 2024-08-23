@@ -6,7 +6,6 @@ import br.com.systemsgs.cadastrosservice.service.EntidadesInterfaceService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -50,7 +49,7 @@ public class FornecedorServiceImpl implements EntidadesInterfaceService<ModelFor
     }
 
     @Override
-    public Page<ModelFornecedor> pesquisaPaginada(Pageable pageable) {
+    public Page<ModelFornecedor> pesquisaPaginada(int page, int size) {
         return null;
     }
 }
