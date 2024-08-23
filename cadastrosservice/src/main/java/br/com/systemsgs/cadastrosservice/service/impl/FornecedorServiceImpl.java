@@ -5,7 +5,6 @@ import br.com.systemsgs.cadastrosservice.repository.FornecedoresRepository;
 import br.com.systemsgs.cadastrosservice.service.EntidadesInterfaceService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -13,15 +12,14 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-@Qualifier("fornecedorService")
 @Service
-public class FornecedorImplService implements EntidadesInterfaceService<ModelFornecedor, Long> {
+public class FornecedorServiceImpl implements EntidadesInterfaceService<ModelFornecedor, Long> {
 
     private final FornecedoresRepository fornecedoresRepository;
     private final ModelMapper mapper;
 
     @Autowired
-    public FornecedorImplService(FornecedoresRepository fornecedoresRepository, ModelMapper mapper) {
+    public FornecedorServiceImpl(FornecedoresRepository fornecedoresRepository, ModelMapper mapper) {
         this.fornecedoresRepository = fornecedoresRepository;
         this.mapper = mapper;
     }

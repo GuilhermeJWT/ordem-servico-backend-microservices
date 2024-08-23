@@ -5,7 +5,6 @@ import br.com.systemsgs.cadastrosservice.repository.TecnicoRepository;
 import br.com.systemsgs.cadastrosservice.service.EntidadesInterfaceService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -13,15 +12,14 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-@Qualifier("tecnicoService")
 @Service
-public class TecnicoImplService implements EntidadesInterfaceService<ModelTecnicoResponsavel, Long> {
+public class TecnicoServiceImpl implements EntidadesInterfaceService<ModelTecnicoResponsavel, Long> {
 
     private final TecnicoRepository tecnicoRepository;
     private final ModelMapper mapper;
 
     @Autowired
-    public TecnicoImplService(TecnicoRepository tecnicoRepository, ModelMapper mapper) {
+    public TecnicoServiceImpl(TecnicoRepository tecnicoRepository, ModelMapper mapper) {
         this.tecnicoRepository = tecnicoRepository;
         this.mapper = mapper;
     }

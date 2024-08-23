@@ -13,7 +13,7 @@ public class FornecedorController {
     private final EntidadesInterfaceService entidadeService;
 
     @Autowired
-    public FornecedorController(@Qualifier("fornecedorService") EntidadesInterfaceService entidadeService) {
+    public FornecedorController(@Qualifier("fornecedorServiceImpl") EntidadesInterfaceService entidadeService) {
         this.entidadeService = entidadeService;
     }
 }

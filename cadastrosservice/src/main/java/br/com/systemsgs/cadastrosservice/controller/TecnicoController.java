@@ -11,7 +11,7 @@ public class TecnicoController {
 
     private final EntidadesInterfaceService entidadeService;
 
-    public TecnicoController(@Qualifier("tecnicoService") EntidadesInterfaceService entidadeService) {
+    public TecnicoController(@Qualifier("tecnicoServiceImpl") EntidadesInterfaceService entidadeService) {
         this.entidadeService = entidadeService;
     }
 }

@@ -13,7 +13,7 @@ public class ClienteController {
     private final EntidadesInterfaceService entidadeService;
 
     @Autowired
-    public ClienteController(@Qualifier("clienteService")EntidadesInterfaceService entidadeService) {
+    public ClienteController(@Qualifier("clienteServiceImpl")EntidadesInterfaceService entidadeService) {
         this.entidadeService = entidadeService;
     }
 }

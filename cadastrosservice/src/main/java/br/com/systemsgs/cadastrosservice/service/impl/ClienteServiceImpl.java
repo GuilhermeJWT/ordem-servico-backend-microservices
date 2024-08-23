@@ -5,7 +5,6 @@ import br.com.systemsgs.cadastrosservice.repository.ClienteRepository;
 import br.com.systemsgs.cadastrosservice.service.EntidadesInterfaceService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -13,15 +12,14 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-@Qualifier("clienteService")
 @Service
-public class ClienteImplService implements EntidadesInterfaceService<ModelClientes, Long> {
+public class ClienteServiceImpl implements EntidadesInterfaceService<ModelClientes, Long> {
 
     private final ClienteRepository clienteRepository;
     private final ModelMapper mapper;
 
     @Autowired
-    public ClienteImplService(ClienteRepository clienteRepository, ModelMapper mapper) {
+    public ClienteServiceImpl(ClienteRepository clienteRepository, ModelMapper mapper) {
         this.clienteRepository = clienteRepository;
         this.mapper = mapper;
     }
