@@ -2,8 +2,16 @@ package br.com.systemsgs.cadastrosservice.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-public class ModelTecnicoRequest {
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+public class ModelTecnicoDTO {
 
     private Long id;
 

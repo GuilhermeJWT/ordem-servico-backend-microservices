@@ -16,7 +16,7 @@ import org.hibernate.validator.constraints.br.CNPJ;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ModelFornecedorRequest {
+public class ModelFornecedorDTO {
 
     private Long id;
 

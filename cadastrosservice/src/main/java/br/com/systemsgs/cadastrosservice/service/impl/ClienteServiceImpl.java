@@ -1,56 +1,86 @@
 package br.com.systemsgs.cadastrosservice.service.impl;
 
+import br.com.systemsgs.cadastrosservice.dto.request.ModelClientesDTO;
+import br.com.systemsgs.cadastrosservice.dto.response.ClienteResponse;
+import br.com.systemsgs.cadastrosservice.exception.erros.ClienteNaoEncontradoException;
 import br.com.systemsgs.cadastrosservice.model.ModelClientes;
+import br.com.systemsgs.cadastrosservice.model.ModelEndereco;
 import br.com.systemsgs.cadastrosservice.repository.ClienteRepository;
-import br.com.systemsgs.cadastrosservice.service.EntidadesInterfaceService;
+import br.com.systemsgs.cadastrosservice.service.ClienteService;
+import br.com.systemsgs.cadastrosservice.util.UtilClientes;
+import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
-public class ClienteServiceImpl implements EntidadesInterfaceService<ModelClientes, Long> {
+public class ClienteServiceImpl implements ClienteService {
 
     private final ClienteRepository clienteRepository;
+    private final UtilClientes utilClientes;
     private final ModelMapper mapper;
 
     @Autowired
-    public ClienteServiceImpl(ClienteRepository clienteRepository, ModelMapper mapper) {
+    public ClienteServiceImpl(ClienteRepository clienteRepository, UtilClientes utilClientes, ModelMapper mapper) {
         this.clienteRepository = clienteRepository;
+        this.utilClientes = utilClientes;
         this.mapper = mapper;
     }
 
     @Override
-    public ModelClientes salvarEntidade(ModelClientes entidade) {
-        return null;
+    public ModelClientes pesquisaPorId(Long id) {
+        return clienteRepository.findById(id).orElseThrow(() -> new ClienteNaoEncontradoException());
     }
 
     @Override
-    public Optional<ModelClientes> pesquisaPorId(Long id) {
-        return Optional.empty();
+    public List<ModelClientes> listarClientes() {
+        return clienteRepository.findAll();
+    }
+
+    @Transactional
+    @Override
+    public ModelClientes salvarClientes(ModelClientesDTO modelClientesDTO) {
+        ModelClientes modelClientes = new ModelClientes();
+        ModelEndereco modelEndereco = new ModelEndereco();
+
+        modelEndereco.setEndereco(modelClientesDTO.getEndereco());
+        modelEndereco.setComplemento(modelClientesDTO.getComplemento());
+        modelEndereco.setCidade(modelClientesDTO.getCidade());
+        modelEndereco.setEstado(modelClientesDTO.getEstado());
+        modelEndereco.setCep(modelClientesDTO.getCep());
+        modelClientes.setNome(modelClientesDTO.getNome());
+        modelClientes.setCpf(modelClientesDTO.getCpf());
+        modelClientes.setCelular(modelClientesDTO.getCelular());
+        modelClientes.setEmail(modelClientesDTO.getEmail());
+        modelClientes.setEndereco(modelEndereco);
+
+        return clienteRepository.save(modelClientes);
     }
 
     @Override
-    public List<ModelClientes> listarTodosRegistros() {
-        return List.of();
+    public Page<ClienteResponse> listarClientesPaginado(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+
+        return clienteRepository.findAll(pageable).map(clientes -> mapper.map(clientes, ClienteResponse.class));
     }
 
     @Override
-    public void deletarPorId(Long id) {
-
+    public void deletarCliente(Long id) {
+        clienteRepository.deleteById(id);
     }
 
     @Override
-    public ModelClientes atualizarEntidade(Long id, ModelClientes entidade) {
-        return null;
-    }
+    public ModelClientes updateClientes(Long id, ModelClientesDTO modelClientesDTO) {
+        ModelClientes clientePesquisado = utilClientes.pesquisarClientePeloId(id);
+        mapper.map(modelClientesDTO, ModelClientes.class);
+        BeanUtils.copyProperties(modelClientesDTO, clientePesquisado, "id");
 
-    @Override
-    public Page<ModelClientes> pesquisaPaginada(int page, int size) {
-        return null;
+        return clienteRepository.save(clientePesquisado);
     }
-
 }
