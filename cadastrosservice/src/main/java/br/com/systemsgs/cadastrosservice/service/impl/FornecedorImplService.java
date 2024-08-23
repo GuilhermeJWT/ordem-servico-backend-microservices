@@ -1,7 +1,10 @@
 package br.com.systemsgs.cadastrosservice.service.impl;
 
 import br.com.systemsgs.cadastrosservice.model.ModelFornecedor;
+import br.com.systemsgs.cadastrosservice.repository.FornecedoresRepository;
 import br.com.systemsgs.cadastrosservice.service.EntidadesInterfaceService;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -11,6 +14,15 @@ import java.util.Optional;
 
 @Service
 public class FornecedorImplService implements EntidadesInterfaceService<ModelFornecedor, Long> {
+
+    private final FornecedoresRepository fornecedoresRepository;
+    private final ModelMapper mapper;
+
+    @Autowired
+    public FornecedorImplService(FornecedoresRepository fornecedoresRepository, ModelMapper mapper) {
+        this.fornecedoresRepository = fornecedoresRepository;
+        this.mapper = mapper;
+    }
 
     @Override
     public ModelFornecedor salvarEntidade(ModelFornecedor entidade) {

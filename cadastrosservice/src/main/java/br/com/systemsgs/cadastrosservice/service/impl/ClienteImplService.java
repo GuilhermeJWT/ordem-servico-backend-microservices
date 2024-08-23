@@ -1,7 +1,10 @@
 package br.com.systemsgs.cadastrosservice.service.impl;
 
 import br.com.systemsgs.cadastrosservice.model.ModelClientes;
+import br.com.systemsgs.cadastrosservice.repository.ClienteRepository;
 import br.com.systemsgs.cadastrosservice.service.EntidadesInterfaceService;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -11,6 +14,15 @@ import java.util.Optional;
 
 @Service
 public class ClienteImplService implements EntidadesInterfaceService<ModelClientes, Long> {
+
+    private final ClienteRepository clienteRepository;
+    private final ModelMapper mapper;
+
+    @Autowired
+    public ClienteImplService(ClienteRepository clienteRepository, ModelMapper mapper) {
+        this.clienteRepository = clienteRepository;
+        this.mapper = mapper;
+    }
 
     @Override
     public ModelClientes salvarEntidade(ModelClientes entidade) {
