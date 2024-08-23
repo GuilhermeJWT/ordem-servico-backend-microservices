@@ -2,6 +2,7 @@ package br.com.systemsgs.cadastrosservice.controller;
 
 import br.com.systemsgs.cadastrosservice.service.EntidadesInterfaceService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -12,7 +13,7 @@ public class FornecedorController {
     private final EntidadesInterfaceService entidadeService;
 
     @Autowired
-    public FornecedorController(EntidadesInterfaceService entidadeService) {
+    public FornecedorController(@Qualifier("fornecedorService") EntidadesInterfaceService entidadeService) {
         this.entidadeService = entidadeService;
     }
 }
