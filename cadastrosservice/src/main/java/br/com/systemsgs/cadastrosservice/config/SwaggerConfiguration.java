@@ -12,5 +12,6 @@ import org.springframework.context.annotation.Configuration;
 public class SwaggerConfiguration {
 
     public static final String TAG_API_CLIENTES = "Api de Clientes - V1";
+    public static final String TAG_API_FORNECEDOR = "Api de Fornecedores - V1";
 
 }
