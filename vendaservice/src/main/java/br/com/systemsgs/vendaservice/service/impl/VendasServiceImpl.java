@@ -11,8 +11,6 @@ import br.com.systemsgs.vendaservice.util.UtilTecnicoResponsavel;
 import br.com.systemsgs.vendaservice.util.UtilVendas;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -21,7 +19,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@CacheConfig(cacheNames = "vendas")
 @Service
 public class VendasServiceImpl implements VendaService {
 
@@ -61,7 +58,6 @@ public class VendasServiceImpl implements VendaService {
         return vendaSalva;
     }
 
-    @Cacheable(value = "vendas", key = "#id")
     @Override
     public VendasResponse pesquisaVendaPorId(Long id) {
         VendasResponse vendasResponse = new VendasResponse();
