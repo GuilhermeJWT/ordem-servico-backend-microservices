@@ -61,4 +61,10 @@ public class ExceptionControllerAdvice {
     public ApiRestErrors tecnicoNaoEncontradoException(TecnicoResponsavelNaoEncontradoException tecnicoResponsavelNaoEncontradoException){
         return new ApiRestErrors(tecnicoResponsavelNaoEncontradoException.getMessage());
     }
+
+    @ExceptionHandler(OrdemServicoNaoEncontradoException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ApiRestErrors osNaoEncontradaException(OrdemServicoNaoEncontradoException osNaoEncontradaException){
+        return new ApiRestErrors(osNaoEncontradaException.getMessage());
+    }
 }
