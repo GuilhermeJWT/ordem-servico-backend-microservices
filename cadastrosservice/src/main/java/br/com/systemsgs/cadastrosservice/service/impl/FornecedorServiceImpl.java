@@ -13,9 +13,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
+import static br.com.systemsgs.cadastrosservice.config.KafkaProducerConfig.TOPIC_FORNECEDORES;
 
 @Service
 public class FornecedorServiceImpl implements FornecedorService {
@@ -23,14 +26,17 @@ public class FornecedorServiceImpl implements FornecedorService {
     private final FornecedoresRepository fornecedoresRepository;
     private final UtilFornecedores utilFornecedores;
     private final ModelMapper mapper;
+    private final KafkaTemplate kafkaTemplate;
 
     @Autowired
     public FornecedorServiceImpl(FornecedoresRepository fornecedoresRepository,
                                  UtilFornecedores utilFornecedores,
-                                 ModelMapper mapper) {
+                                 ModelMapper mapper,
+                                 KafkaTemplate kafkaTemplate) {
         this.fornecedoresRepository = fornecedoresRepository;
         this.utilFornecedores = utilFornecedores;
         this.mapper = mapper;
+        this.kafkaTemplate = kafkaTemplate;
     }
 
     @Override
@@ -53,7 +59,10 @@ public class FornecedorServiceImpl implements FornecedorService {
     @Transactional
     @Override
     public ModelFornecedor salvarFornecedor(ModelFornecedorDTO modelFornecedorDTO) {
-        return fornecedoresRepository.save(mapper.map(modelFornecedorDTO, ModelFornecedor.class));
+        ModelFornecedor fornecedorSalvo = fornecedoresRepository.save(mapper.map(modelFornecedorDTO, ModelFornecedor.class));
+        kafkaTemplate.send(TOPIC_FORNECEDORES, utilFornecedores.converteFornecedorSalvoKafka(fornecedorSalvo));
+
+        return fornecedorSalvo;
     }
 
     @Override
