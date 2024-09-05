@@ -15,7 +15,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static br.com.systemsgs.vendaservice.config.SwaggerConfiguration.TAG_API_PRODUTOS;
 
@@ -37,8 +36,7 @@ public class ProdutoController {
     @GetMapping("/listar")
     public ResponseEntity<List<ModelProdutosDTO>> listarProdutos(){
         return ResponseEntity.ok().body(produtoService.listarProdutos().
-                stream().map(x -> mapper.map(x, ModelProdutosDTO.class))
-                .collect(Collectors.toList()));
+                stream().map(x -> mapper.map(x, ModelProdutosDTO.class)).toList());
     }
 
     @Operation(summary = "Pesquisa por ID", description = "Api para listar um Produto por ID")
@@ -49,7 +47,7 @@ public class ProdutoController {
 
     @Operation(summary = "Salvar Produtos", description = "Api para Salvar um Produto")
     @PostMapping("/salvar")
-    public ResponseEntity salvarProduto(@RequestBody @Valid ModelProdutosDTO modelProdutosDTO){
+    public ResponseEntity<ModelProdutosDTO> salvarProduto(@RequestBody @Valid ModelProdutosDTO modelProdutosDTO){
         ModelProdutos produtoSalvo = produtoService.salvarProdutos(modelProdutosDTO);
 
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").
