@@ -15,9 +15,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
+import static br.com.systemsgs.cadastrosservice.config.KafkaProducerConfig.TOPIC_CLIENTES;
 
 @Service
 public class ClienteServiceImpl implements ClienteService {
@@ -25,12 +28,14 @@ public class ClienteServiceImpl implements ClienteService {
     private final ClienteRepository clienteRepository;
     private final UtilClientes utilClientes;
     private final ModelMapper mapper;
+    private final KafkaTemplate kafkaTemplate;
 
     @Autowired
-    public ClienteServiceImpl(ClienteRepository clienteRepository, UtilClientes utilClientes, ModelMapper mapper) {
+    public ClienteServiceImpl(ClienteRepository clienteRepository, UtilClientes utilClientes, ModelMapper mapper, KafkaTemplate kafkaTemplate) {
         this.clienteRepository = clienteRepository;
         this.utilClientes = utilClientes;
         this.mapper = mapper;
+        this.kafkaTemplate = kafkaTemplate;
     }
 
     @Override
@@ -60,7 +65,10 @@ public class ClienteServiceImpl implements ClienteService {
         modelClientes.setEmail(modelClientesDTO.getEmail());
         modelClientes.setEndereco(modelEndereco);
 
-        return clienteRepository.save(modelClientes);
+        ModelClientes clienteSalvo = clienteRepository.save(modelClientes);
+        kafkaTemplate.send(TOPIC_CLIENTES, utilClientes.converteClienteSalvoKafka(clienteSalvo));
+
+        return clienteSalvo;
     }
 
     @Override
