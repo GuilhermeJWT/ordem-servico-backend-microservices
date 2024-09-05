@@ -23,20 +23,17 @@ public class UtilClientes {
     }
 
     public ClienteSalvoKafka converteClienteSalvoKafka(ModelClientes clienteSalvo) {
-        ClienteSalvoKafka clienteKafka = new ClienteSalvoKafka();
-
-        clienteKafka.setId(clienteSalvo.getId());
-        clienteKafka.setNome(clienteSalvo.getNome());
-        clienteKafka.setCpf(clienteSalvo.getCpf());
-        clienteKafka.setCelular(clienteSalvo.getCelular());
-        clienteKafka.setEmail(clienteSalvo.getEmail());
-        clienteKafka.setEndereco(clienteSalvo.getEndereco().getEndereco());
-        clienteKafka.setComplemento(clienteSalvo.getEndereco().getComplemento());
-        clienteKafka.setCidade(clienteSalvo.getEndereco().getCidade());
-        clienteKafka.setEstado(clienteSalvo.getEndereco().getEstado());
-        clienteKafka.setCep(clienteSalvo.getEndereco().getCep());
-        clienteKafka.setTipoAlteracaoCadastros(TipoAlteracaoCadastros.CADASTRO);
-
-        return clienteKafka;
+        return new ClienteSalvoKafka(
+                clienteSalvo.getId(),
+                clienteSalvo.getNome(),
+                clienteSalvo.getCpf(),
+                clienteSalvo.getCelular(),
+                clienteSalvo.getEmail(),
+                clienteSalvo.getEndereco().getEndereco(),
+                clienteSalvo.getEndereco().getComplemento(),
+                clienteSalvo.getEndereco().getCidade(),
+                clienteSalvo.getEndereco().getEstado(),
+                clienteSalvo.getEndereco().getCep(),
+                TipoAlteracaoCadastros.CADASTRO);
     }
 }
